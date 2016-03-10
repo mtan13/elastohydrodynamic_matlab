@@ -9,7 +9,8 @@ maxratio = ratio;
 R = 0.05;%m
 mass = (4/3)*pi*R^3*density;%kg
 viscosity = 0.001; 
-v=-0.003673469;
+v=-0.0022222;
+
 
 % drive velocity, m/s
 h0=1.08994E-05;%m
