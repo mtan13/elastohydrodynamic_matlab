@@ -199,19 +199,18 @@ while indexer<1000 %The outer loop, when the loop execute once one certain time 
                 else
                 end
             end
-            RMax = 0.1*max(Rs);
-            YAxis = 1.1* h0';
+            
             if rem(runs,10)<1  % plot real profile, guess, errors every 10 trys
-                subplot(1,3,3)
+                subplot(1,4,3)
                 plot(Rs,allhcalc(runs,:)-allhguess1(runs,:))
                 title(num2str(ratio));
-                axis([0 RMax -1e-9 1e-9])
+                axis([0 0.001 -1e-9 1e-9])
                 drawnow
-                subplot(1,3,2)
+                subplot(1,4,2)
                 hold on
                 plot(Rs,hguess1,'red')
                 plot(Rs,hcalc,'blue')
-                axis([0 RMax 0 YAxis])
+                axis([0 100e-6 0e-9 h0])
                 title(num2str(runs))
                 drawnow
                 
@@ -243,13 +242,12 @@ while indexer<1000 %The outer loop, when the loop execute once one certain time 
         end
         
     end
-    
-    cla(subplot(1,3,2))
-    cla(subplot(1,3,3))
-    subplot(1,3,1)
+    cla(subplot(1,4,2))
+    cla(subplot(1,4,3))
+    subplot(1,4,1)
     hold on
     plot(Rs,hcalc)
-    axis([0 RMax 0 YAxis])
+    axis([0 250e-6 0 h0])
     title(num2str(indexer));
     drawnow
     
