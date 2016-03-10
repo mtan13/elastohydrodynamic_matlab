@@ -93,7 +93,6 @@ for a = 1:length(p1guess)
    dp1finder(a) = -12*viscosity*calcint(a)/(Rs(a)*hguess1(a)^3);
    dp1finder(1) = 0;
 end  %dp/dr has been solved
-
 %
 for a=length(p1guess)-1:-1:1
    
