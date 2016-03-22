@@ -91,18 +91,18 @@ while indexer<1000 %The outer loop, when the loop execute once one certain time 
         calcint = fnval(integ,Rs);
         
         for a = 1:length(p1guess)
-            dp1finder(a) = -12*viscosity*calcint(a)/(Rs(a)*hguess1(a)^3);
+            dp1finder(a) = -12*viscosity*calcint(a)/(Rs(a)*hguess1(a)^3);% a minus sign to make dp1finder always positive
             dp1finder(1) = 0;
         end  %dp/dr has been solved
         %
         for a=length(p1guess)-1:-1:1
             
-            p1guess(a)=p1guess(a+1)+((dp1finder(a)+dp1finder(a+1))/2)*(Rs(a+1)-Rs(a));%edge is zero, matrix of dp converted to pressure profile
-            eguess(a) = (p1guess(a)+viscosity*epreviousSol(a)/tincre)/(E+viscosity/tincre);
-            peguess(a) = eguess(a)*E;
-            if peguess(a) > p1guess(a)
-                peguess(a) = p1guess(a);
-            end
+            p1guess(a)=p1guess(a+1)+((dp1finder(a)+dp1finder(a+1))/2)*(Rs(a+1)-Rs(a));%edge is zero, matrix of dp converted to pressure profile; Also cancel the negative before.
+            %eguess(a) = (p1guess(a)+viscosity*epreviousSol(a)/tincre)/(E+viscosity/tincre);
+           % peguess(a) = eguess(a)*E;
+           % if peguess(a) > p1guess(a)
+               % peguess(a) = p1guess(a);
+            %end
             
         end
         
@@ -110,7 +110,7 @@ while indexer<1000 %The outer loop, when the loop execute once one certain time 
         
         
         p1guess(1) = p1guess(2);
-        peguess(1) = peguess(2);
+       % peguess(1) = peguess(2);
         I0=pi/2*trapz(Rs,p1guess);
         force=trapz(Rs,2*pi*Rs.*p1guess);
         
@@ -122,7 +122,7 @@ while indexer<1000 %The outer loop, when the loop execute once one certain time 
             d=((Rs+Rs(a)).^2);
             phi1=Rs./(Rs+Rs(a)).*ellipke(c./d);
             phi1(a)=pi/2;
-            Ir=trapz(Rs,(dummyp-peguess(a)).*(phi1-pi/2));%?
+            Ir=trapz(Rs,(dummyp-p1guess(a)).*(phi1-pi/2));%?
             wguess(a)=4*(1-poi^2)/(pi*E)*(I0+Ir);%
             
         end
@@ -131,7 +131,7 @@ while indexer<1000 %The outer loop, when the loop execute once one certain time 
         % to update for layering effects, uncomment following code and comment
         % above code.
         
-        p = peguess;
+
         
         %for i = 1:inc:maxlength
         %Z(1,(i+inc-1)/inc) = -1 * i*trapz(r,r.*p.*besselj(0,i*r));
